@@ -155,10 +155,17 @@
 {% endcomponent nav %}
 
 <!-- component for rendering a list of post pages -->
-{% component page_lister(radion_title, paginator) %}
-  {% if radion_title %}
-  <header><h1>{{ radion_title }}</h1></header>
-  {% endif %} {% for page in paginator.pages %} {{
+{% component page_lister(header, pages, href = none, id = none) %}
+  {% if header %}
+    {% if href %}
+        <header><h1 id={{id}}>
+            <a class="zola-anchor" href={{href}}>{{header}}</a>
+        </h1></header>
+    {% else %}
+        <header><h1>{{header}}</h1></header>
+    {% endif %}
+  {% endif %}
+  {% for page in pages %} {{
   <page_in_list page/> }} {% endfor %}
 {% endcomponent page_lister %}
 

@@ -1,0 +1,64 @@
+<!-- component for rendering a list of subsections -->
+{% component subsection_lister(header, section, href = none, id = none) %}
+  {% if header %}
+    {% if href %}
+        <header><h1 id={{id}}>
+            <a class="zola-anchor" href={{href}}>{{header}}</a>
+        </h1></header>
+    {% else %}
+        <header><h1>>{{header}}</h1></header>
+    {% endif %}
+  {% endif %}
+  {% for subsection in section.subsections %}
+    {% set subsection_obj = get_section(path=subsection) %}
+    {{ <subsection_in_list section={subsection_obj}/> }}
+  {% endfor %}
+{% endcomponent subsection_lister %}
+
+
+{% component subsection_in_list(section) %}
+    <article itemscope itemtype="http://schema.org/CreativeWork">
+        <header>
+            <h2 itemprop="name">
+                <a href="{{ section.permalink | safe }}">{{ section.title | safe }}</a>
+            </h2>
+            <data class="muted">
+                {% if section.pages | length != 0 %}
+                    <img
+                        src="{{ get_url(path='icons/file.svg') }}"
+                        id="file-icon"
+                        class="file-icon"
+                        alt="Pages"
+                        width="18" height="18"
+                    />
+                    {% if section.pages | length == 1 %}
+                        {% set page_text = "1 page" %}
+                    {% else %}
+                        {% set page_text = (section.pages | length) ~ " pages" %}
+                    {% endif %}
+                    <data>{{ page_text }}</data>
+                {% endif %}
+                {% if section.subsections | length != 0 %}
+                    <img
+                        src="{{ get_url(path='icons/folder.svg') }}"
+                        id="folder-icon"
+                        class="file-icon"
+                        alt="Subsections"
+                        width="18" height="18"
+                    />
+                    {% if section.subsections | length == 1 %}
+                        {% set subsection_text = "1 subsection" %}
+                    {% else %}
+                        {% set subsection_text = (section.subsections | length) ~ " subsections" %}
+                    {% endif %}
+                    <data>{{ subsection_text }}</data>
+                {% endif %}
+            </data>
+        </header>
+        {% if section.description %}
+            <section itemprop="description">
+                {{ section.description | safe }}
+            </section>
+        {% endif %}
+    </article>
+{% endcomponent subsection_in_list %}

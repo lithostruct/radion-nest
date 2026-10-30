@@ -1,0 +1,102 @@
+{% extends "index.html" -%}
+{%- block title %}
+    {% if section is defined and section.title %}
+    {{ section.title }}
+    {% else %}
+    {{ super() }}
+    {% endif %}
+{% endblock title -%}
+{%- block header %}
+    {{ super() }}
+{% endblock header -%}
+
+{%- block main %}
+
+<!-- Set and validate `extra.show_pages` front matter variable. -->
+{% set show_pages = section.extra.show_pages | default(value="all") %}
+{% if ["all", "direct_only", "none"] is not containing(pat=show_pages) %}
+    {{ throw(message='Unsupported `extra.show_pages` value ' ~ show_pages ~ ', expecting "all", "direct_only" or "none".')}}
+{% endif %}
+
+<!--
+If pagination is enabled, assert `extra.show_pages = "all"`.
+Otherwise, set `pages` based on `extra.show_pages` mode.
+-->
+{% if paginator is defined %}
+    {% if show_pages != "all" %}
+        {{ throw(message='Only `extra.show_pages = "all"` is compatible with pagination.')}}
+    {% endif %}
+{% else %}
+    {% if show_pages == "all" %}
+        {% set pages = section.pages %}
+    {% elif show_pages == "none" %}
+        {% set pages = [] %}
+    {% else %}
+        {% set pages = [
+            page
+            for page in section.pages
+            if (page.components | length) == (section.components | length) + 1 ] %}
+    {% endif %}
+{% endif %}
+
+<!-- Set subsection and pages names -->
+{% set subsections_header = section.extra.subsections_header | default(value="Subsections") %}
+{% set pages_header = section.extra.pages_header | default(value="Pages") %}
+
+<article itemscope itemtype="http://schema.org/BlogPosting">
+    {% if section.title %}
+        <header>
+            <h1 itemprop="headline">{{ section.title | safe }}</h1>
+        </header>
+    {% endif %}
+    
+    <article itemprop="articleBody">
+        {% if section.content %}
+            {% if section.extra.summary %}
+                {{ section.extra.summary | markdown | safe }}
+            {% endif %}
+            
+            {% if section.extra.toc | default(value=false) and section.toc %}
+            {% include "partials/section_toc.html" %}
+            {% endif %}
+
+            {{ section.content | safe }}
+        <!-- If no content, fallback to summary or description -->
+        {% elif section.extra.summary %}
+            {{ section.extra.summary | markdown | safe }}
+        {% else %}
+            {{ section.description | safe }}
+        {% endif %}
+    </article>
+
+    <!-- Subsections -->
+    {% if section.subsections %}
+    <div itemprop="subsections">
+        {{<subsection_lister header={subsections_header} section href="#__radion-subsections" id="__radion-subsections"/>}}
+    </div>
+    {% endif %}
+
+    <!-- Paginator or direct pages -->
+    {% if paginator and paginator.total_pages %}
+        <div itemprop="pages">
+            {{<page_lister header={pages_header} pages={paginator.pages} href="#__radion-pages" id="__radion-pages"/>}}
+            {{<nav paginator/>}}
+        </div>
+    {% elif pages %}
+        <!-- The page_lister component doesn't actually NEED a paginator, just a structure that has the .pages field -->
+        <div itemprop="pages">
+            {{<page_lister header={pages_header} pages href="#__radion-pages" id="__radion-pages"/>}}
+        </div>
+    {% endif %}
+
+    <!-- Comment section -->
+    {% block comments %}
+      {% if config.extra.comments | default(value="false") %}
+        {% if section.extra.comments | default(value="false")%}
+          {% include "_giscus_script.html" %}
+        {% endif %}
+      {% endif %}
+    {% endblock comments %}
+    
+</article>
+{% endblock main %}

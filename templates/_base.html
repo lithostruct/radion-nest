@@ -172,7 +172,8 @@
 
     <main>
       {% block main %}
-      {{<page_lister radion_title={config.extra.radion_title} paginator/>}}
+      {% set header = config.extra.radion_title or section.title or config.title %}
+      {{<page_lister header pages={paginator.pages}/>}}
       {{<nav paginator/>}}
       {% endblock main %}
     </main>

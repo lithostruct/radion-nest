@@ -24,11 +24,11 @@
             <data class="muted">{{ <meta page/> }}</data>
         </header>
         {% if page.description or page.summary %}
-        <section itemprop="summary">
+            <section itemprop="summary">
 	            {% if page.description %}
                     {{ page.description | safe }}
 	            {% else %}
-	            {{ page.summary | safe }}
+	                {{ page.summary | safe }}
 	            {% endif %}
                 <nav class="readmore"><a itemprop="url" href="{{ page.permalink | safe }}">Read More&nbsp;&raquo;</a></nav>
             </section>
