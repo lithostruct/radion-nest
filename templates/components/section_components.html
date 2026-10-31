@@ -1,5 +1,5 @@
 <!-- component for rendering a list of subsections -->
-{% component subsection_lister(header, section, href = none, id = none) %}
+{% component subsections_lister(header, section, href = none, id = none) %}
   {% if header %}
     {% if href %}
         <header><h1 id={{id}}>
@@ -13,7 +13,7 @@
     {% set subsection_obj = get_section(path=subsection) %}
     {{ <subsection_in_list section={subsection_obj}/> }}
   {% endfor %}
-{% endcomponent subsection_lister %}
+{% endcomponent subsections_lister %}
 
 
 {% component subsection_in_list(section) %}
@@ -43,13 +43,13 @@
                         src="{{ get_url(path='icons/folder.svg') }}"
                         id="folder-icon"
                         class="file-icon"
-                        alt="Subsections"
+                        alt="Sections"
                         width="18" height="18"
                     />
                     {% if section.subsections | length == 1 %}
-                        {% set subsection_text = "1 subsection" %}
+                        {% set subsection_text = "1 section" %}
                     {% else %}
-                        {% set subsection_text = (section.subsections | length) ~ " subsections" %}
+                        {% set subsection_text = (section.subsections | length) ~ " sections" %}
                     {% endif %}
                     <data>{{ subsection_text }}</data>
                 {% endif %}

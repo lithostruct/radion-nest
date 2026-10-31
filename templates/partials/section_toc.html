@@ -25,8 +25,8 @@
     {% endfor %}
     
     {% if section.subsections %}
-      {% set href = section.permalink ~ "#__radion-subsections" %}
-      <li><a href={{href}}>{{subsections_header}}</a></li>
+      {% set href = section.permalink ~ "#__radion-sections" %}
+      <li><a href={{href}}>{{sections_header}}</a></li>
     {% endif %}
     {% if (paginator and paginator.total_pages) or pages %}
       {% set href = section.permalink ~ "#__radion-pages" %}
