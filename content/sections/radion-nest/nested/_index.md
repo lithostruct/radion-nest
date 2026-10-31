@@ -1,5 +1,5 @@
 +++
-title = "Nested"
+title = "Nothing"
 description = "Nested section."
 
 transparent = true

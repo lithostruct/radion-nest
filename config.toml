@@ -47,10 +47,10 @@ fediverse.rel_me = "https://my.instance.example.com/@username"
 mastodon = "https://my.instance.example.com/@username"
 radion_menu = [
     {url = "$BASE_URL/", name = "Home"},
+    {url = "$BASE_URL/sections", name = "Sections"},
     {url = "$BASE_URL/categories", name = "Categories"},
     {url = "$BASE_URL/tags", name = "Tags"},
 ]
-radion_title = "My Example Site"
 
 # Nicer codeblocks with copy to clipboard
 codeblock = true
@@ -68,10 +68,7 @@ theme = "toggle" # options: {light, dark, auto, toggle}
 favicon = true
 
 # Giscus comment support
-comments = true
-giscus_repo = "micahkepe/radion"
-giscus_repo_id = "R_kgDONK7lCQ"
-giscus_data_category_id = "DIC_kwDONK7lCc4CnfXf"
+comments = false
 
 # Post revision history
 revision_history = true

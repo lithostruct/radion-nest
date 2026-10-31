@@ -12,6 +12,8 @@ summary = '''
 This section catalogues and tests the addition of sections to Radion.  
 As a matter of fact, <i>this text too</i> is a test![^0]
 
+This section page uses `extra.show_pages = "all"`. It should display all its accessible pages.
+
 [^0]:
     Foreshadowing is a narrative device in which suggestions or warnings about things to come are dropped or planted.
 '''
@@ -69,7 +71,7 @@ This template should be similar to base Radion, such that one can switch from on
 However, there are a couple of details that have been modified:
 - The home `_index.md` page now reads the `title` front matter variable, then `title` from `config.toml`, if `config.extra.radion_name` is unset.  
   You can think of the latter as an override now, rather than the default way to set the title of the home page.
-- Table of contents for pages will display at the start of the body opted into via `extra.toc = true` even if a summary is not demarcated via the `<!-- more -->` tag.
+- Table of contents for pages will display at the start of the body, opted into via `extra.toc = true`, even if a summary is not demarcated via the `<!-- more -->` tag.
 
 [^1]:
     `extra.summary` internally uses Zola's `markdown` filter within a dedicated section of the section template. This means that it has access to all of the CommonMark specification, but cannot interact with the rest of the document. Notice how the first *1st* footnote in the summary comes before the table of contents?
