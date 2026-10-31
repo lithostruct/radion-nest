@@ -40,7 +40,7 @@ Otherwise, set `pages` based on `extra.show_pages` mode.
 {% endif %}
 
 <!-- Set subsection and pages names -->
-{% set subsections_header = section.extra.subsections_header | default(value="Subsections") %}
+{% set sections_header = section.extra.sections_header | default(value="Sections") %}
 {% set pages_header = section.extra.pages_header | default(value="Pages") %}
 
 <article itemscope itemtype="http://schema.org/BlogPosting">
@@ -71,8 +71,8 @@ Otherwise, set `pages` based on `extra.show_pages` mode.
 
     <!-- Subsections -->
     {% if section.subsections %}
-    <div itemprop="subsections">
-        {{<subsection_lister header={subsections_header} section href="#__radion-subsections" id="__radion-subsections"/>}}
+    <div itemprop="sections">
+        {{<subsections_lister header={sections_header} section href="#__radion-sections" id="__radion-sections"/>}}
     </div>
     {% endif %}
 
