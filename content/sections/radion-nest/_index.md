@@ -38,16 +38,16 @@ transparent = true
 
 [extra]
 
+# Enables table-of-content generation. Default value set to `false`.
+# This functions similarly to table-of-content generation for pages,
+# with the addition of automatically-generated headers where applicable.
+toc = true | false
+
 # Pages can be split into the summary and main body via <!-- more -->, but not so with sections.
 # This variable allows for the insertion of a string as a "summary",
 # which follows Radion's theming and will display before the table of contents.
 # Renders as Markdown.
 summary = string as markdown
-
-# Enables table-of-content generation. Default value set to `false`.
-# This functions similarly to table-of-content generation for pages,
-# with the addition of automatically-generated Subsection and Pages headers where applicable.
-toc = true | false
 
 # Defines how pages are shown. Default value set to `"all"`.
 # Section pagination via `paginate_by` is only compatible with this value set to `"all"`.
@@ -58,14 +58,20 @@ toc = true | false
 #    home page pagination, depending on the value of `transparent`.
 show_pages = "all" | "direct_only" | "none"
 
-# The header name of the Subsections listing. Default value set to `"Subsections"`.
-subsections_header = string
+# The header name of the Sections listing. Default value set to `"Sections"`.
+sections_header = string
 # The header name of the Pages listing. Default value set to `"Pages"`.
 pages_header = string
 ```
-Caveats[^1] do[^2] apply.[^3]
+Caveats[^1] do[^2] apply.[^3] [^4]
 
-## Minor Tweaks
+## Table of Contents Support
+
+Section pages can be pages in their own right. That's why you can also opt into Table of Contents generation via the front matter variable `extra.toc = true`.
+
+This functions identically to Radion's Table of Contents generation for pages, with the addition of automatically generated `Section` and `Pages` headings where applicable.
+
+# Minor Tweaks
 
 This template should be similar to base Radion, such that one can switch from one to the other if section capabilities are not used.
 However, there are a couple of details that have been modified:
@@ -75,10 +81,14 @@ However, there are a couple of details that have been modified:
 
 [^1]:
     `extra.summary` internally uses Zola's `markdown` filter within a dedicated section of the section template. This means that it has access to all of the CommonMark specification, but cannot interact with the rest of the document. Notice how the first *1st* footnote in the summary comes before the table of contents?
+
     Any augmentation to Zola's Markdown rendering eg. LaTeX support in the case of Radion will also be usable within the summary section.
 
 [^2]:
-    A table of contents is only generated if the corresponding `section.toc` is populated, despite the fact that every section can be populated with both `Subsections` and `Pages` headers. This holds even if `extra.toc` is set to `true`.
+    A table of contents is only generated if the corresponding `section.toc` is populated, despite the fact that every section can be populated with both `Sections` and `Pages` headers. This holds even if `extra.toc` is set to `true`.
 
 [^3]:
-    The `pages` statistic displayed for each subsection only accounts for the total number of pages from transparent sections. This will be the common case anyways, but websites can be accessible via section navigation and yet are seen as invisible from an enclosing section. All subsections will be listed unless explicitly `hidden` via front matter configuration.
+    The `pages` statistic displayed for each subsection only accounts for the total number of pages directly and from transparent sections. This will be the common case anyways, but pages can be accessible via section navigation and yet are seen as invisible from an enclosing section. All subsections will be listed unless explicitly `hidden` via front matter configuration.
+
+[^4]:
+    Giscus comments are disabled by default in sections. This may be overriden by setting `extra.comments = true` in the section front-matter.
