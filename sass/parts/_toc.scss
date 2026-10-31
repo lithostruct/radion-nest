@@ -66,3 +66,20 @@
 .toc-list li {
   margin: 0.5rem 0;
 }
+
+// Addition for section-specific (sub)Section and Pages headers.
+.toc-container ul.section-specific {
+  margin-top: -0.5rem;
+  font-weight: normal;
+
+  li {
+    display: inline-block;
+    margin-right: 1.0rem;
+    a {
+      font-weight: normal;
+    }
+  }
+  li::after {
+    content: "|";
+  }
+}
