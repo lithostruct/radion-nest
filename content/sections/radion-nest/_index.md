@@ -71,6 +71,10 @@ Section pages can be pages in their own right. That's why you can also opt into 
 
 This functions identically to Radion's Table of Contents generation for pages, with the addition of automatically generated `Section` and `Pages` headings where applicable.
 
+## Icons
+
+Section titles and generated section headers + TOC entries are prefixed with folder and file icons to distinguish them from normal pages and user-written headers. This may be disabled via configuration variable `extra.section_icons`.
+
 # Minor Tweaks
 
 This template should be similar to base Radion, such that one can switch from one to the other if section capabilities are not used.
