@@ -27,21 +27,25 @@
 
   <!-- Section specific headers -->
   {% if section.subsections or ((paginator and paginator.total_pages) or pages) %}
-  <ul class="muted section-specific">
-    {% if section.subsections %}
-      {% set href = section.permalink ~ "#__radion-sections" %}
-      <li><a href={{href}}>
-          {{<folder_svg class="icon" width="20" height="20"/>}}
-          {{sections_header}}
-      </a></li>
-    {% endif %}
-    {% if (paginator and paginator.total_pages) or pages %}
-      {% set href = section.permalink ~ "#__radion-pages" %}
-      <li><a href={{href}}>
-          {{<file_svg class="icon" width="20" height="20"/>}}
-          {{pages_header}}
-      </a></li>
-    {% endif %}
-  </ul>
+    <ul class="section-specific">
+      {% if section.subsections %}
+        {% set href = section.permalink ~ "#__radion-sections" %}
+        <li><a href={{href}}>
+            {% if section_icons %}
+              {{<folder_svg class="icon" width="20" height="20"/>}}
+            {% endif %}
+            {{ sections_header | safe }}
+        </a></li>
+      {% endif %}
+      {% if (paginator and paginator.total_pages) or pages %}
+        {% set href = section.permalink ~ "#__radion-pages" %}
+        <li><a href={{href}}>
+            {% if section_icons %}
+              {{<file_svg class="icon" width="20" height="20"/>}}
+            {% endif %}
+            {{ pages_header | safe }}
+        </a></li>
+      {% endif %}
+    </ul>
   {% endif %}
 </details>
