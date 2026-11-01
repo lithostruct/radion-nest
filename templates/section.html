@@ -39,14 +39,21 @@ Otherwise, set `pages` based on `extra.show_pages` mode.
     {% endif %}
 {% endif %}
 
-<!-- Set subsection and pages names -->
-{% set sections_header = section.extra.sections_header | default(value="Sections") %}
-{% set pages_header = section.extra.pages_header | default(value="Pages") %}
+<!-- Set section and pages headers -->
+{% set sections_header = (section.extra.sections_header | default(value="Sections")) %}
+{% set pages_header = (section.extra.pages_header | default(value="Pages")) %}
+
+{% set section_icons = config.extra.section_icons | default(value=true) %}
 
 <article itemscope itemtype="http://schema.org/BlogPosting">
     {% if section.title %}
         <header>
-            <h1 itemprop="headline">{{ section.title | safe }}</h1>
+            <h1>
+                {% if section_icons %}
+                {{ <folder_svg class="icon" width="20" height="20" stroke_width="10%"/> }}
+                {% endif %}
+                <span itemprop="headline">{{ section.title | safe }}</span>
+            </h1>
         </header>
     {% endif %}
     
@@ -71,21 +78,45 @@ Otherwise, set `pages` based on `extra.show_pages` mode.
 
     <!-- Subsections -->
     {% if section.subsections %}
-    <div itemprop="sections">
-        {{<subsections_lister header={sections_header} section href="#__radion-sections" id="__radion-sections"/>}}
-    </div>
+        {% set header %}
+            {% if section_icons %}
+            {{ <folder_svg class="icon" width="20" height="20" stroke_width="10%"/> }}
+            {% endif %}
+            {{sections_header}}
+        {% endset %}
+        <div itemprop="hasPart"
+            itemscope
+            itemtype="https://schema.org/Collection">
+            {{<subsections_lister header section href="#__radion-sections" id="__radion-sections"/>}}
+        </div>
     {% endif %}
 
     <!-- Paginator or direct pages -->
     {% if paginator and paginator.total_pages %}
-        <div itemprop="pages">
-            {{<page_lister header={pages_header} pages={paginator.pages} href="#__radion-pages" id="__radion-pages"/>}}
+        {% set header %}
+            {% if section_icons %}
+            {{ <file_svg class="icon" width="20" height="20" stroke_width="10%"/> }}
+            {% endif %}
+            {{pages_header}}
+        {% endset %}
+        <div itemprop="hasPart"
+            itemscope
+            itemtype="https://schema.org/Collection">
+            {{<page_lister header pages={paginator.pages} href="#__radion-pages" id="__radion-pages"/>}}
             {{<nav paginator/>}}
         </div>
     {% elif pages %}
         <!-- The page_lister component doesn't actually NEED a paginator, just a structure that has the .pages field -->
-        <div itemprop="pages">
-            {{<page_lister header={pages_header} pages href="#__radion-pages" id="__radion-pages"/>}}
+        {% set header %}
+            {% if section_icons %}
+            {{ <file_svg class="icon" width="20" height="20" stroke_width="10%"/> }}
+            {% endif %}
+            {{pages_header}}
+        {% endset %}
+        <div itemprop="hasPart"
+            itemscope
+            itemtype="https://schema.org/Collection">
+            {{<page_lister header pages href="#__radion-pages" id="__radion-pages"/>}}
         </div>
     {% endif %}
 
